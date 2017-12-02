@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: cassandra-deploy
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: cassandra
+    spec:
+      containers:
+      - name: cassandra
+        image: cassandra:3
+        ports:
+        - containerPort: 9042
+        resources:
+          limits:
+            memory: 1024Mi
