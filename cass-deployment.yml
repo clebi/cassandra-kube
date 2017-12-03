@@ -1,19 +1,35 @@
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: apps/v1beta2
+kind: StatefulSet
 metadata:
-  name: cassandra-deploy
+  name: cassandra
+  labels:
+    app: cassandra
 spec:
+  serviceName: cassandra
   replicas: 2
+  selector:
+    matchLabels:
+      app: cassandra
   template:
     metadata:
       labels:
         app: cassandra
     spec:
       containers:
-      - name: cassandra
-        image: cassandra:3
-        ports:
-        - containerPort: 9042
-        resources:
-          limits:
-            memory: 1024Mi
+        - name: cassandra
+          image: cassandra:3
+          ports:
+            - containerPort: 7000
+              name: intra-node
+            - containerPort: 7001
+              name: tls-intra-node
+            - containerPort: 7199
+              name: jmx
+            - containerPort: 9042
+              name: cql
+          resources:
+            limits:
+              memory: 1Gi
+          env:
+            - name: CASSANDRA_SEEDS
+              value: "cassandra-0.cassandra.default.svc.cluster.local"

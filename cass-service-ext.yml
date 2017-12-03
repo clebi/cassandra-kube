@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cassandra-ext
+  name: cassandra-ext
+spec:
+  type: NodePort
+  ports:
+    - port: 9042
+      protocol: TCP
+      targetPort: 9042
+      name: cqlsh
+  selector:
+    app: cassandra
