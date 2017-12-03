@@ -33,3 +33,16 @@ spec:
           env:
             - name: CASSANDRA_SEEDS
               value: "cassandra-0.cassandra.default.svc.cluster.local"
+          volumeMounts:
+            - name: cassandra-data
+              mountPath: /var/lib/cassandra
+  volumeClaimTemplates:
+    - metadata:
+        name: cassandra-data
+        annotations:
+          volume.beta.kubernetes.io/storage-class: standard
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

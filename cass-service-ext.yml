@@ -5,7 +5,7 @@ metadata:
     app: cassandra-ext
   name: cassandra-ext
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 9042
       protocol: TCP
